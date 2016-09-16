@@ -32,7 +32,7 @@ You'll need to have a monitor connected to the RPi for this step, but afterwards
   ```
   - While you're there, set the timezone to NZDT (or your local timezone)
 
-**You can now access this via the network**
+**You can now access this via the network** via ssh pi@MACHINE_NAME (where MACHINE NAME is what you just set up)
 
 - *Step 4:* Update the operating system
   ```bash
@@ -55,7 +55,7 @@ You'll need to have a monitor connected to the RPi for this step, but afterwards
   ```
   change bind address to bind_address = 0.0.0.0
     
-  then restart service: 
+  then restart the service: 
   ```bash
   sudo /etc/init.d/couchdb restart
   ```
@@ -144,13 +144,5 @@ Database support
 
 In a browser, go to http://MACHINE_NAME.local:5984, where MACHINE_NAME is what you set in step 3.
 
-- *Step 13:* create database called “config”
-- *Step 14:* add record called “sensors”
-- *Step 15:* add the following fields:
-  ```
-  soil_probe_light: False
-  soil_probe_moisture: True
-  soil_probe_temperature: True
-  ```
-
-- Step 16: create database called “telemetry”
+- Step 13: create database called “telemetry”
+  - @TODO set up CouchDB views
