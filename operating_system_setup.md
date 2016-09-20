@@ -98,8 +98,12 @@ Sensor support
   ```bash
   sudo pip3 install --process-dependency-links aosong
   ```
+- *Step 10:* Set up support for the aquflex sensor. The script will support both Python 3.x and 2.x, but we'll settle for version 2.
+  ```bash
+  sudo apt-get install python-serial
+  ```
 
-- *Step 10:* 3G dongle support. Steps taken from here: https://www.raspberrypi.org/forums/viewtopic.php?t=18996
+- *Step 11:* 3G dongle support. Steps taken from here: https://www.raspberrypi.org/forums/viewtopic.php?t=18996
   This will work for the e3131, any other dongle will need the equivalent file contents.
   ```bash
   sudo apt-get install sg3-utils
@@ -125,7 +129,7 @@ Sensor support
 Code support
 ============
 
-- *Step 11:* Create a directory called 'telemetry' in the pi user location:
+- *Step 12:* Create a directory called 'telemetry' in the pi user location:
   ```bash
   cd ~\pi
   mkdir telemetry
@@ -134,7 +138,7 @@ Code support
   Copy over all the sensor code
   @TODO - include link to code in GitHub
 
-- *Step 12:* Set up weatherPiArduino
+- *Step 13:* Set up weatherPiArduino
   ```bash
   cd ~\telemetry\sensors\weatherPiArduino
   chmod u+x weatherPiArduino_agent.py
@@ -146,3 +150,30 @@ In a browser, go to http://MACHINE_NAME.local:5984, where MACHINE_NAME is what y
 
 - Step 13: create database called “telemetry”
   - @TODO set up CouchDB views
+  
+Crontab entries
+===============
+
+- Step 14: create entries in the crontab so telemetry readings will be taken and transmitted out:
+  ```
+  # Run sensors:
+  1 * * * * /usr/bin/python3 /home/pi/telemetry/sensors/am2315.py > /home/pi/telemetry/logs/am2315.log 2>&1
+  2 * * * * /usr/bin/python /home/pi/telemetry/sensors/aquaflex.py > /home/pi/telemetry/logs/aquaflex.log 2>&1
+  3 * * * * /usr/bin/python /home/pi/telemetry/sensors/weatherPiArduino/weatherPiArduino_controller.py 2>&1
+  # minute 10 reserved for hardware stats
+  
+  # retry scripts in case they failed the first time
+  30 * * * * /usr/bin/python /home/pi/telemetry/sensors/weatherPiArduino/weatherPiArduino_controller.py 2>&1
+  30 * * * * /usr/bin/python3 /home/pi/telemetry/sensors/am2315.py > /home/pi/telemetry/logs/am2315.log 2>&1
+  
+  # Notifications:
+  51 * * * * /usr/bin/python /home/pi/telemetry/cron/sendHardwareStats.py > /home/pi/telemetry/logs/sendHardwareStats.log 2>&1
+  55 * * * * /usr/bin/python /home/pi/telemetry/cron/sendTelemetry.py > /home/pi/telemetry/logs/sendTelemetry.log 2>&1
+  50 * * * * /usr/bin/python /home/pi/telemetry/cron/checkEmail.py > /home/pi/telemetry/logs/checkEmail.log 2>&1
+  
+  # System hygiene scripts:
+  30 3 * * * bash /home/pi/telemetry/cron/compaction.sh int > /home/pi/telemetry/logs/compaction.log 2>&1
+  10 * * * * /usr/bin/python /home/pi/telemetry/cron/hardwareStats.py > /home/pi/telemetry/logs/hardwareStats.log 2>&1
+  
+  @reboot /usr/bin/python /home/pi/telemetry/autorun/rebootLogger.py
+  ```
