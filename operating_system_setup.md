@@ -151,10 +151,12 @@ In a browser, go to http://MACHINE_NAME.local:5984, where MACHINE_NAME is what y
 - Step 13: create database called “telemetry”
   - @TODO set up CouchDB views
   
+- Step 14: create database called "hardware"
+
 Crontab entries
 ===============
 
-- Step 14: create entries in the crontab so telemetry readings will be taken and transmitted out:
+- Step 15: create entries in the crontab so telemetry readings will be taken and transmitted out:
   ```
   # Run sensors:
   1 * * * * /usr/bin/python3 /home/pi/telemetry/sensors/am2315.py > /home/pi/telemetry/logs/am2315.log 2>&1
