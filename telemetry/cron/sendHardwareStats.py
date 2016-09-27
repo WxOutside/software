@@ -22,7 +22,6 @@ header=''
 
 date=hardware_record['date']
 hour=hardware_record['hour']
-host_name=hardware_record['host_name']
 doc_name=hardware_record['_id']
     
 json_items=hardware_record
