@@ -10,8 +10,6 @@
 
 # imports
 
-# pi@bear1 / $ ps ax | grep weatherPiArduino
-
 import json
 import os
 import socket
@@ -84,8 +82,8 @@ print "Program Started at:"+ time.strftime("%Y-%m-%d %H:%M:%S")
 print ""
 
 weatherStation=create_connection()
-weatherStation.setWindMode(SDL_MODE_SAMPLE, 5.0)
-#weatherStation.setWindMode(SDL_MODE_DELAY, 5.0)
+#weatherStation.setWindMode(SDL_MODE_SAMPLE, 5.0)
+weatherStation.setWindMode(SDL_MODE_DELAY, 5.0)
 
 # Main Program
 host_name=socket.gethostname()
