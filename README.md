@@ -84,7 +84,7 @@ You'll need to have a monitor connected to the RPi for this step, but afterwards
   ```
   Add these lines:
   ```
-  # WxOutside: turn off the HDML port:
+  # WxOutside: turn off the HDMI port:
   /opt/vc/bin/tvservice -o
   ```
 
@@ -148,6 +148,7 @@ Code support
   cd ~\telemetry\sensors\weatherPiArduino
   chmod u+x weatherPiArduino_agent.py
   ```
+
 Database support
 ================
 
@@ -184,4 +185,12 @@ Crontab entries
   
   @reboot /usr/bin/python /home/pi/telemetry/autorun/rebootLogger.py
   ```
+
+Credits
+=======
+
+The weatherPiArduino hardware uses a slightly modified version of the weatherPiArduino libraries, provided by SwitchDoc Labs
+https://github.com/switchdoclabs/RaspberryPi-WeatherPiArduino
+
+Aquaflex code written with assistance from Streats Instruments http://www.streatsahead.com
 
