@@ -155,10 +155,18 @@ Database support
 In a browser, go to http://MACHINE_NAME.local:5984, where MACHINE_NAME is what you set in step 3.
 
 - Step 13: create database called “telemetry”
-  - @TODO set up CouchDB views
+  - Create a design document called 'records', with a view name called 'unsent', with the following map function:
   
-- Step 14: create database called "hardware"
-
+  ```javascript
+  function(doc) {
+    if(!doc.ignore && !doc.email_sent){
+      emit(doc._rev, doc)
+    }
+  }
+  ```
+- Step 14: create a database called 'hardware' with a design document with your machine name (MACHINE_NAME)
+  - this can be left empty, it will be automatically populated
+  
 Crontab entries
 ===============
 
