@@ -7,7 +7,7 @@ Operating system download
 =========================
 
 First, we need to download the OS and flash this onto the SD card that the RPi unit uses.
-We use Jessie-lite because it only includes the basic components - we don't need the desktop for instance. And the A+ can run into stability issues when too many processes are running.
+We use Jessie-lite because it only includes the basic components - for example we don't need the desktop. And the A+ can run into stability issues when too many processes are running.
 
 - *Step 1:* Download Jessie-lite: https://www.raspberrypi.org/downloads/raspbian/
 - *Step 2:* Install Jessie-lite, as described here: https://www.raspberrypi.org/documentation/installation/installing-images/mac.md
@@ -18,7 +18,7 @@ OS X steps only:
 *Note*: steps for other operating systems are provided in the Raspberry Pi links above
 
 - Unmount the SD card via disk utility
-  - Take note of the disk number - you'll need that for the commandin the next step
+  - Take note of the disk number - you'll need that for the command in the next step
 - In terminal, run the following command (using the actual file name, and replacing YOURNAME with the path to your downloads directory)
   - Also, replace 'disk3' with the disk number from the previous step
 
@@ -60,7 +60,7 @@ You'll need to have a monitor connected to the RPi for this step, but afterwards
   ```
   change bind address to bind_address = 0.0.0.0
     
-  then restart the service: 
+  then restart the service (just to make sure it's all working): 
   ```bash
   sudo /etc/init.d/couchdb restart
   ```
@@ -87,6 +87,7 @@ You'll need to have a monitor connected to the RPi for this step, but afterwards
   # WxOutside: turn off the HDMI port:
   /opt/vc/bin/tvservice -o
   ```
+  If you ever want to connect a monitor again, remove this line and reboot
 
 Sensor support
 ==============
@@ -121,7 +122,9 @@ Sensor support
   Now configure the network interfaces to support this:
   ```bash
   sudo pico /etc/network/interfaces
+  ```
   edit eth0 to say this:
+  ```bash
   allow-hotplug eth0
   iface eth0 inet dhcp
   ```
@@ -140,8 +143,7 @@ Code support
   mkdir telemetry
   ```
   
-  Copy over all the sensor code
-  @TODO - include link to code in GitHub
+  Copy over all the sensor code from https://github.com/WxOutside/software/tree/master/telemetry
 
 - *Step 13:* Set up weatherPiArduino
   ```bash
