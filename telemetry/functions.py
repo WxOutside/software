@@ -48,11 +48,14 @@ def run_proc(request_type, path, json_string=False):
     #print ('returning:', output)
     return output
 
+# Return the core components of the current date and time
 def date_time():
     date=time.strftime("%Y-%m-%d")
     hour=time.strftime('%H')
+    hour2=time.strftime('%I%p').lstrip('0')
+    minutes=time.strftime('%M')
     
-    return date,hour
+    return date,hour,hour2,minutes
 
 # Return CPU temperature as a character string                                     
 def getCPUtemperature():
@@ -104,8 +107,7 @@ def update_last_record(base_url, host_name, new_json_items):
             del new_json_items['_rev']
             
     except:
-        # Do nothing
-        print ('no revision value to delete')
+        pass
         
     doc_name=host_name + '_last_record'
     output=run_proc('GET', base_url + '/telemetry/' + doc_name)
@@ -119,7 +121,7 @@ def update_last_record(base_url, host_name, new_json_items):
             #print ("We need to update rev_id " + last_record_json_items['_rev'])   
             
     except:
-        print ("No entry for this host, not updating a revision")
+        pass
         
     # Merge the two dictionaries
     z = last_record_json_items.copy()
@@ -134,12 +136,12 @@ def update_last_record(base_url, host_name, new_json_items):
     
     return replication_output
     
-def update_log(filename, message):
-    target = open(filename, 'w') #change to 'a' to append
+#def update_log(filename, message):
+#    target = open(filename, 'w') #change to 'a' to append
 
-    target.write(message)
-    target.write("\n")
-    target.close()
+#    target.write(message)
+#    target.write("\n")
+#    target.close()
     
 # Generic 'send email' function
 def send_email(subject, text):

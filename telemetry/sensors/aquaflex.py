@@ -25,14 +25,15 @@ def main(argv):
     new_address=''
     new_soil=''
     try:
-        opts, args = getopt.getopt(argv,"a:s:",["new=", "soil="])
+        opts, args = getopt.getopt(argv,"a:s:",["address=", "soil="])
     except getopt.GetoptError:
-        print ('aquaflex_logger.py -new <new_address>')
+        print ('aquaflex.py --address <new_address>')
         sys.exit(2)
         
     for opt, arg in opts:
         if opt in ("-a", "--address"):
-            new_address = bytes(arg, encoding='utf-8')
+            new_address = arg
+                
         elif opt in ("-s", "--soil"):
             new_soil=arg
             
@@ -56,16 +57,19 @@ def main(argv):
     address=aquaflex.device_address(device)
     
     if address==b'':
-        print ('No valid address could be found, is the sensor plugged in (also check the battery)?')
+        print ('Code: 300')
+        print ('Message: No valid address could be found, is the sensor plugged in (also check the battery)?')
         exit()
         
     if change_address:
         changed=aquaflex.change_device_address(device, address, new_address)
        
         if changed==new_address:
-            print ('Device address changed successfully')
+            print ('Code: 100')
+            print ('Message: Device address changed successfully')
         else:
-            print ('Device address could not be changed')
+            print ('Code: 300')
+            print ('Message: Device address could not be changed')
             
         exit()
     
@@ -73,15 +77,18 @@ def main(argv):
         changed=aquaflex.change_soil_type(device, address, new_soil)
         
         if changed==new_soil:
-            print ('Soil type changed successfully')
+            print ('Code: 100')
+            print ('Message: Soil type changed successfully')
         else:
-            print ('Soil type could not be changed')
+            print ('Code: 300')
+            print ('Message: Soil type could not be changed')
             
         exit()
     
     # Not really sure if this might be a problem, but we'll check that the details match:
     if aquaflex.device_acknowledgement(device, address)!=address:
-        print ('The device address does not match the acknowledged address, exiting')
+        print ('Code: 300')
+        print ('Message: The device address does not match the acknowledged address, exiting')
         exit()
         
     # Get the identification value for this device.
@@ -89,11 +96,13 @@ def main(argv):
     
     # the only thing we really care about is that the sdi version and the sensor version match what we expect
     if sdi_version!=aquaflex_config.config_sdi_version:
-        print ('The sensor is using the wrong SDI standard (',sdi_version,')  - we are expecting SDI-12 version 1.3')
+        print ('Code: 300')
+        print ('Message: The sensor is using the wrong SDI standard (',sdi_version,')  - we are expecting SDI-12 version 1.3')
         exit()
    
     if version not in aquaflex_config.config_versions:
-        print ('The sensor is the wrong version (',version,') - we are expecting version 130')
+        print ('Code: 300')
+        print ('Message: The sensor is the wrong version (',version,') - we are expecting version 130')
         exit()
         
     # Get the soil type - we need this for the equation later
@@ -118,10 +127,10 @@ def main(argv):
             has_record=True
                 
     except:
-        print ("No record for this hour, let's create one!")
+        pass
     
     if has_record:
-        print ("This hour already has a record, we're not going to update it again")
+        print ("Message: This hour already has a record, we're not going to update it again")
         exit()
         
     # Now we can get the measurement
@@ -139,23 +148,26 @@ def main(argv):
     # 0.02: Low power. The voltage too low to take a reading)
     # 0.03: Corrupt configuration. This has never been reported. It means that the configuration has failed its CRC checks and the calibration cannot be relied on.
     error_code=soil_moisture.split('.')[1]
+
     if error_code=='-01':
         error_message='Sensor is damaged or sitting in the open air.'
     elif error_code=='-02':
         error_message='Low power. The voltage is too low to take a reading.'
     elif error_code=='-03':
         error_message='Corrupt configuration. The configuration has failed its CRC checks and the calibration cannot be relied on.'
-    elif(error_code[0,1]=='-'):
-        error_message='Sensor misconfigured - try doing a factory reset.'
+    #elif error_code[0,1]=='-':
+    #    error_message='Sensor misconfigured - try doing a factory reset.'
     else:
+        error_code=False
         error_message=False
         
     if error_message!=False:
-        print (error_message)
-        #exit();
+        print ('Code: 300')
+        print ('Message:', error_message)
+        exit();
     
-    print('soil moisture:', soil_moisture, 'soil temperature:', soil_temperature, 'voltage:', battery_voltage)
-    print('raw1:', raw1, 'raw2:', raw2)
+    #print('soil moisture:', soil_moisture, 'soil temperature:', soil_temperature, 'voltage:', battery_voltage)
+    #print('raw1:', raw1, 'raw2:', raw2)
         
     vmc=0
     lmc=raw2-raw1
@@ -185,11 +197,8 @@ def main(argv):
     try:
         if output['_rev']:
             json_items=output
-        
-            print ("We need to update rev_id " + json_items['_rev'])   
             
     except:
-        print ("No entry for this hour, not updating a revision")
         # We need to add these values so that we can retreive them in views.
         # We only add these for new records because these values shouldn't change if the record is updated
         json_items['host_name']=host_name
@@ -210,14 +219,20 @@ def main(argv):
     json_string=json.dumps(json_items)   
     
     replication_output=run_proc('PUT', couchdb_baseurl + '/telemetry/' + doc_name, json_string)
-    print ('Record written to ' + doc_name)
-    #print (replication_output)
     
     ###################################################
     # update the last_record entry:
-    current_time=time.strftime("%Y-%m-%d %H:%M:%S")
+    current_time=time.strftime("%Y-%m-%d %H:%M")
     json_items['am2315_last_updated']=current_time
     update_last_record(couchdb_baseurl, host_name, json_items)
-
+    
+    print ('Time:', current_time)
+    print ('Code: 100')
+    print ('Moisture:', soil_moisture)
+    print ('Soil temperature:', soil_temperature)
+    print ('Voltage:', battery_voltage)
+    print ('Raw1:', raw1)
+    print ('Raw2:', raw2)
+    
 if __name__ == "__main__":
     main(sys.argv[1:])

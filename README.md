@@ -156,7 +156,7 @@ Database support
 
 In a browser, go to http://MACHINE_NAME.local:5984, where MACHINE_NAME is what you set in step 3.
 
-- Step 13: create database called “telemetry”
+- Step 14: create database called “telemetry”
   - Create a design document called 'records', with a view name called 'unsent', with the following map function:
   
   ```javascript
@@ -166,34 +166,34 @@ In a browser, go to http://MACHINE_NAME.local:5984, where MACHINE_NAME is what y
     }
   }
   ```
-- Step 14: create a database called 'hardware' with a design document with your machine name (MACHINE_NAME)
+- Step 15: create a database called 'hardware' with a design document titled with your machine name (MACHINE_NAME)
   - this can be left empty, it will be automatically populated
   
 Crontab entries
 ===============
 
-- Step 15: create entries in the crontab so telemetry readings will be taken and transmitted out:
+- Step 16: create entries in the crontab so telemetry readings will be taken and transmitted out:
   ```
   # Run sensors:
-  1 * * * * /usr/bin/python3 /home/pi/telemetry/sensors/am2315.py > /home/pi/telemetry/logs/am2315.log 2>&1
-  2 * * * * /usr/bin/python /home/pi/telemetry/sensors/aquaflex.py > /home/pi/telemetry/logs/aquaflex.log 2>&1
-  3 * * * * /usr/bin/python /home/pi/telemetry/sensors/weatherPiArduino/weatherPiArduino_controller.py 2>&1
+  1 * * * * /usr/bin/python3 /home/pi/telemetry/sensors/am2315.py > /home/pi/telemetry/logs/am2315.`date +\%Y\%m\%d\%H\%M\%S`.log 2>&1
+  1 * * * * /usr/bin/python /home/pi/telemetry/sensors/aquaflex.py > /home/pi/telemetry/logs/aquaflex.`date +\%Y\%m\%d\%H\%M\%S`.log 2>&1
+  2 * * * * /usr/bin/python /home/pi/telemetry/sensors/weatherPiArduino/weatherPiArduino_controller.`date +\%Y\%m\%d\%H\%M\%S`.log 2>&1
+
   # minute 10 reserved for hardware stats
-  
-  # retry scripts in case they failed the first time
-  30 * * * * /usr/bin/python /home/pi/telemetry/sensors/weatherPiArduino/weatherPiArduino_controller.py 2>&1
-  30 * * * * /usr/bin/python3 /home/pi/telemetry/sensors/am2315.py > /home/pi/telemetry/logs/am2315.log 2>&1
-  
+  30 * * * * /usr/bin/python3 /home/pi/telemetry/sensors/am2315.py > /home/pi/telemetry/logs/am2315.`date +\%Y\%m\%d\%H\%M\%S`.log 2>&1
+  31 * * * * /usr/bin/python /home/pi/telemetry/sensors/weatherPiArduino/weatherPiArduino_controller.`date +\%Y\%m\%d\%H\%M\%S`.log 2>&1
+
   # Notifications:
   51 * * * * /usr/bin/python /home/pi/telemetry/cron/sendHardwareStats.py > /home/pi/telemetry/logs/sendHardwareStats.log 2>&1
   55 * * * * /usr/bin/python /home/pi/telemetry/cron/sendTelemetry.py > /home/pi/telemetry/logs/sendTelemetry.log 2>&1
   50 * * * * /usr/bin/python /home/pi/telemetry/cron/checkEmail.py > /home/pi/telemetry/logs/checkEmail.log 2>&1
-  
+
   # System hygiene scripts:
-  30 3 * * * bash /home/pi/telemetry/cron/compaction.sh int > /home/pi/telemetry/logs/compaction.log 2>&1
+  30 3 * * * bash /home/pi/telemetry/cron/compaction.sh int > /home/pi/telemetry/logs/compaction.`date +\%Y\%m\%d\%H\%M\%S`.log 2>&1
   10 * * * * /usr/bin/python /home/pi/telemetry/cron/hardwareStats.py > /home/pi/telemetry/logs/hardwareStats.log 2>&1
-  
-  @reboot /usr/bin/python /home/pi/telemetry/autorun/rebootLogger.py
+  10 * * * * /usr/bin/python /home/pi/telemetry/cron/logger.py > /home/pi/telemetry/logs/logger.log 2>&1
+
+  @reboot /usr/bin/python /home/pi/telemetry/autorun/rebootLogger.py > /home/pi/telemetry/logs/rebootLogger.`date +\%Y\%m\%d\%H\%M\%S`.log 2>&1
   ```
 
 Credits
@@ -201,6 +201,8 @@ Credits
 
 The weatherPiArduino hardware uses a slightly modified version of the weatherPiArduino libraries, provided by SwitchDoc Labs
 https://github.com/switchdoclabs/RaspberryPi-WeatherPiArduino
+
+AM2315 sensor class comes from Sopwith http://sopwith.ismellsmoke.net/?p=104
 
 Aquaflex code written with assistance from Streats Instruments http://www.streatsahead.com
 

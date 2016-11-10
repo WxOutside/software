@@ -1,6 +1,5 @@
 #!/usr/bin/env python
 
-#import serial.tools.list_ports
 import serial
 import sys
 import time
@@ -19,7 +18,6 @@ def device_address(device):
         response=bytes(device.readline().decode('utf-8'))[:-2]
     else:
         response=bytes(device.readline().decode('utf-8'), encoding='utf-8')[:-2]
-    
     
     return response
     
@@ -112,4 +110,3 @@ def change_soil_type(device, address, soil_type):
     response=device.readline().decode('utf-8')[1:-2]
     
     return response
-

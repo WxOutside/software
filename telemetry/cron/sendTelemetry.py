@@ -80,7 +80,7 @@ for row in unsent_records['rows']:
         
         time.sleep(5.0)
                 
-            #exit() 
+        #exit() 
     #except:
     #    print ("bad data, can't send email for ", values)
     #    exit()
