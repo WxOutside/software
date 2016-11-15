@@ -20,7 +20,6 @@ disk_total,disk_used,disk_remaining,disk_percent=getDiskSpace()
 date,hour,hour_readable,minutes=date_time()
 
 existing_record=run_proc('GET', couchdb_baseurl + '/hardware/' + host_name)
-print (existing_record)
 try:
     if existing_record['_rev']:
         sensor_record=existing_record

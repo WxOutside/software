@@ -45,7 +45,6 @@ def run_proc(request_type, path, json_string=False):
         except:
             output=False
 
-    #print ('returning:', output)
     return output
 
 # Return the core components of the current date and time
@@ -136,13 +135,6 @@ def update_last_record(base_url, host_name, new_json_items):
     
     return replication_output
     
-#def update_log(filename, message):
-#    target = open(filename, 'w') #change to 'a' to append
-
-#    target.write(message)
-#    target.write("\n")
-#    target.close()
-    
 # Generic 'send email' function
 def send_email(subject, text):
     server = smtplib.SMTP(wxoutside_email_server, wxoutside_email_port)
@@ -157,15 +149,3 @@ def send_email(subject, text):
     server.quit()
     
     return True
-
-# Get the configuration settings for the sensor
-# def check_sensor_config():
-#     output=run_proc('GET', couchdb_baseurl + '/config/sensors')
-#     
-#     try:
-#         get_aquaflex_settings=convert_to_bool(output['aquaflex'])
-#     except:
-#         get_aquaflex_settings=False
-#     
-#     return get_aquaflex_settings
-    

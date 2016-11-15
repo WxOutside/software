@@ -173,6 +173,12 @@ Crontab entries
 ===============
 
 - Step 16: create entries in the crontab so telemetry readings will be taken and transmitted out:
+  ```bash
+  ~/crontab -e
+  ```
+  
+  Then added these lines:
+
   ```
   # Run sensors:
   1 * * * * /usr/bin/python3 /home/pi/telemetry/sensors/am2315.py > /home/pi/telemetry/logs/am2315.`date +\%Y\%m\%d\%H\%M\%S`.log 2>&1

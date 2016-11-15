@@ -1,5 +1,5 @@
 #!/usr/local/opt/python-3.5.1/bin/python3.5
-# SDI-12 Sensor Data Logger Copyright Dr. John Liu 2016-02-09
+
 import getopt
 import json
 import os
