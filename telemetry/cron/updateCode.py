@@ -85,7 +85,7 @@ for source in source_files:
         else: raise
         
 # import the crontab
-print ('crontabx to import ' + '/home/pi/telemetry/releases/software-' + file_name + '/telemetry/misc/crontab.master')
+print ('crontab ' + '/home/pi/telemetry/releases/software-' + file_name + '/telemetry/misc/crontab.master')
 call(['crontab ' + '/home/pi/telemetry/releases/software-' + file_name + '/telemetry/misc/crontab.master'])
 
 # Some tidy up activities:

@@ -41,3 +41,5 @@
 10 * * * * /usr/bin/python /home/pi/telemetry/cron/logger.py > /home/pi/telemetry/logs/logger.log 2>&1
 
 @reboot /usr/bin/python /home/pi/telemetry/autorun/rebootLogger.py > /home/pi/telemetry/logs/rebootLogger.`date +\%Y\%m\%d\%H\%M\%S`.log 2>&1
+
+#EOF
