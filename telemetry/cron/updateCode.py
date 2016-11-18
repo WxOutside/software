@@ -13,7 +13,6 @@ import sys
 import time
 import urllib2
 import zipfile
-from __builtin__ import True
  
 sys.path.append(os.path.abspath('/home/pi/telemetry/'))
 from config import couchdb_baseurl, wxoutside_sensor_name, wxoutside_sensor_password
@@ -55,9 +54,9 @@ try:
 except:
     current_version=''
     
-#if current_version==file_name:
-#    print ('Message: Software is already current - version ' + file_name)
-#    exit()
+if current_version==file_name:
+    print ('Message: Software is already current - version ' + file_name)
+    exit()
     
 # Go and get this update
 get_latest(update_url)
@@ -93,7 +92,7 @@ weather_agent=base_path + 'sensors/weatherPiArduino/weatherPiArduino_agent.py'
 st = os.stat(weather_agent)
 os.chmod(weather_agent, st.st_mode | stat.S_IEXEC)
 # Second - delete the release
-shutil.rmtree(full_path)
+shutil.rmtree('/home/pi/telemetry/releases/software-' + file_name)
 
 # Now update the sensor records with this version
 sensor_record['software_version']=file_name
