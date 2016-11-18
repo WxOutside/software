@@ -6,8 +6,8 @@ import os
 import smtplib
 import time
 
-from config import couchdb_baseurl
-from config import wxoutside_email_server, wxoutside_email_port, wxoutside_sensor_email, wxoutside_sensor_password
+from config import couchdb_baseurl, wxoutside_email_server, wxoutside_email_port
+from environment_config import wxoutside_sensor_email, wxoutside_sensor_password
 
 def get_sensor_config_value(item):
     output=run_proc('GET', couchdb_baseurl + '/config/sensors')

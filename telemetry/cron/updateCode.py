@@ -15,7 +15,8 @@ import urllib2
 import zipfile
  
 sys.path.append(os.path.abspath('/home/pi/telemetry/'))
-from config import couchdb_baseurl, wxoutside_sensor_name, wxoutside_sensor_password
+from config import couchdb_baseurl, wxoutside_domain
+from environment_config import wxoutside_sensor_name, wxoutside_sensor_password
 from functions import run_proc
 
 def get_latest(url):
@@ -55,6 +56,7 @@ except:
     current_version=''
     
 if current_version==file_name:
+    print ('Code: 200')
     print ('Message: Software is already current - version ' + file_name)
     exit()
     
@@ -101,4 +103,5 @@ json_string=json.dumps(sensor_record)
 result=run_proc('PUT', couchdb_baseurl + '/hardware/' + wxoutside_sensor_name, json_string)
 
 # All done!
+print ('Code: 100')
 print ('Message: Software successfully updated to ' + file_name)

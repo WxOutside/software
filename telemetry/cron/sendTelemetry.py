@@ -7,7 +7,8 @@ import sys
 import time
 
 sys.path.append(os.path.abspath('/home/pi/telemetry/'))
-from config import couchdb_baseurl, wxoutside_email_server, wxoutside_email_port, wxoutside_sensor_email, wxoutside_sensor_password
+from config import couchdb_baseurl, wxoutside_email_server, wxoutside_email_port
+from environment_config import wxoutside_sensor_email, wxoutside_sensor_password
 from functions import run_proc, convert_to_bool
 
 version='v1'

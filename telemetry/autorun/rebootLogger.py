@@ -6,7 +6,7 @@ import time
 
 sys.path.append(os.path.abspath('/home/pi/telemetry/'))
 from functions import send_email
-from config import wxoutside_sensor_name
+from environent_config import wxoutside_sensor_name
 
 date=time.strftime("%Y-%m-%d %H:%M")
 

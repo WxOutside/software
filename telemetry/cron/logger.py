@@ -13,7 +13,8 @@ def modification_date(filename):
     return datetime.datetime.fromtimestamp(t)
 
 sys.path.append(os.path.abspath('/home/pi/telemetry/'))
-from config import wxoutside_email_server, wxoutside_email_port, wxoutside_sensor_email, wxoutside_sensor_password
+from config import wxoutside_email_server, wxoutside_email_port
+from environment_config import wxoutside_sensor_email, wxoutside_sensor_password
 
 version='v1'
 header=''
@@ -21,17 +22,7 @@ body=''
 
 host_name=socket.gethostname()
 
-# -rw-r--r-- 1 pi pi    563 Aug  5 21:01 am2315.log
-# -rw-r--r-- 1 pi pi    233 Aug  5 20:50 checkEmail.log
-# -rw-r--r-- 1 pi pi    567 Aug  5 03:30 compaction.log
-# -rw-r--r-- 1 pi pi    133 Aug  5 21:04 hardwareStats.log
-# -rw-r--r-- 1 pi pi    161 Aug  5 20:51 sendHardwareStats.log
-# -rw-r--r-- 1 pi pi  33702 Aug  5 20:55 sendTelemetry.log
-# -rw-r--r-- 1 pi pi    282 Aug  5 21:02 soil.log
-# -rw-r--r-- 1 pi pi     32 Jul 31 10:17 uptimeLogger.log
-# -rw-r--r-- 1 pi pi 162918 Aug  5 21:03 weatherPiArduino_controller.log
-
-logs=['am2315', 'aquaflex', 'compaction', 'rebootLogger', 'weatherPiArduino_controller']
+logs=['am2315', 'aquaflex', 'compaction', 'rebootLogger', 'updateCode', 'weatherPiArduino_controller']
 
 for log_name in logs:
     filepath='/home/pi/telemetry/logs/' + str(log_name) + '.*.log'

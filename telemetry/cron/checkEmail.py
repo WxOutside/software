@@ -1,16 +1,14 @@
 #!/usr/bin/env python
 
+from email import parser
 import json
 import os
 import poplib
-#import smtplib
 import sys
-#import time
-
-from email import parser
 
 sys.path.append(os.path.abspath('/home/pi/telemetry/'))
-from config import wxoutside_email_server, wxoutside_email_port, wxoutside_sensor_email, wxoutside_sensor_password, couchdb_baseurl, wxoutside_sensor_name
+from config import wxoutside_email_server, wxoutside_email_port, couchdb_baseurl
+from environment_config import wxoutside_sensor_name, wxoutside_sensor_email, wxoutside_sensor_password
 from functions import run_proc
 
 from sensors.aquaflex import aquaflex_functions
@@ -27,22 +25,6 @@ messages = [pop_conn.retr(i) for i in range(1, len(pop_conn.list()[1]) + 1)]
 messages = ["\n".join(mssg[1]) for mssg in messages]
 #Parse message intom an email object:
 messages = [parser.Parser().parsestr(mssg) for mssg in messages]
-
-# Generic 'send email' function
-# def send_email(subject, text):
-#     server = smtplib.SMTP(wxoutside_email_server, wxoutside_email_port)
-#     server.starttls()
-#     server.login(wxoutside_sensor_email, wxoutside_sensor_password)
-#      
-#     text = str(header) + str(body)
-#     message = 'Subject: %s\n\n%s' % (subject, text)
-#     
-#     from_address=wxoutside_sensor_email
-#     to_address=wxoutside_sensor_email
-#     server.sendmail(from_address, to_address, message)
-#     server.quit()
-#     
-#     return True
                             
 count=0;
 for message in messages:
@@ -254,10 +236,6 @@ for message in messages:
                             os.system('sudo shutdown -c')
                             os.system('sudo shutdown -r ' + event_time)
                             
-                            #text='v1\\' + wxoutside_sensor_name + "\system event\restart\n"
-                            
-                            #text='System scheduled for a restart at ' + str(time.strftime("%Y-%m-%d %H:%M:%S"))
-                            #send_email('System event response', )
                         if command=='change soil type':
                             
                             soil_type=lines[4]
