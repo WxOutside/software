@@ -85,8 +85,7 @@ for source in source_files:
         else: raise
         
 # import the crontab
-print ('crontab ' + '/home/pi/telemetry/releases/software-' + file_name + '/telemetry/misc/crontab.master')
-call(['crontab ' + '/home/pi/telemetry/releases/software-' + file_name + '/telemetry/misc/crontab.master'])
+call(['crontab ' + '/home/pi/telemetry/releases/software-' + file_name + '/telemetry/misc/crontab.master'], shell=True)
 
 # Some tidy up activities:
 # First - grant the right permissions to the agent:
