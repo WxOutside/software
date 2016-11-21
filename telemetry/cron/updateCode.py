@@ -31,7 +31,7 @@ current_time=time.strftime("%Y-%m-%d %H:%M")
 print ('Time:' + current_time)
 
 # First, check for the correct version of the codebase we're supposed to be using
-update_check='http://beta.wxoutside.tools/SelfUpdate/check?hostname=' + wxoutside_sensor_name + '&password=' + wxoutside_sensor_password
+update_check=wxoutside_domain + '/SelfUpdate/check?hostname=' + wxoutside_sensor_name + '&password=' + wxoutside_sensor_password
 
 headers = { 'User-Agent' : 'Mozilla/5.0' }
 req = urllib2.Request(update_check, None, headers)

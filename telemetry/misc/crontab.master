@@ -36,7 +36,7 @@
 50 * * * * /usr/bin/python /home/pi/telemetry/cron/checkEmail.py > /home/pi/telemetry/logs/checkEmail.log 2>&1
 
 # System hygiene scripts:
-5 * * * * /usr/bin/python /home/pi/telemetry/cron/updateCode.py > /home/pi/telemetry/logs/updateCode.`date +\%Y\%m\%d\%H\%M\%S`.log 2>&1
+5 2 * * * /usr/bin/python /home/pi/telemetry/cron/updateCode.py > /home/pi/telemetry/logs/updateCode.`date +\%Y\%m\%d\%H\%M\%S`.log 2>&1
 10 * * * * /usr/bin/python /home/pi/telemetry/cron/hardwareStats.py > /home/pi/telemetry/logs/hardwareStats.log 2>&1
 10 * * * * /usr/bin/python /home/pi/telemetry/cron/logger.py > /home/pi/telemetry/logs/logger.log 2>&1
 30 3 * * * bash /home/pi/telemetry/cron/compaction.sh int > /home/pi/telemetry/logs/compaction.`date +\%Y\%m\%d\%H\%M\%S`.log 2>&1
