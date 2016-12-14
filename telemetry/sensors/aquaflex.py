@@ -114,7 +114,7 @@ def main(argv):
         
     # Now check the database to see if we already have a record
     host_name=socket.gethostname()
-    date,hour=date_time()
+    date,hour,hour_readable,minutes=date_time()
     
     doc_name=host_name + '_' + date + ':' + hour
     output=run_proc('GET', couchdb_baseurl + '/telemetry/' + doc_name)
@@ -130,6 +130,7 @@ def main(argv):
         pass
     
     if has_record:
+        print ('Code:200')
         print ("Message: This hour already has a record, we're not going to update it again")
         exit()
         
@@ -191,7 +192,6 @@ def main(argv):
     
     # Now update the local database
     host_name=socket.gethostname()
-    date,hour=date_time()
         
     json_items={}
     try:

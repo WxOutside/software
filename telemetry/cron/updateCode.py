@@ -19,13 +19,22 @@ from config import couchdb_baseurl, wxoutside_domain
 from environment_config import wxoutside_sensor_name, wxoutside_sensor_password
 from functions import run_proc
 
+# Get the file at the provided location and unzip it
+# Assumes the URL is valid
 def get_latest(url):
     
-    r = requests.get(url, stream=True)
-    z = zipfile.ZipFile(StringIO.StringIO(r.content))
-    z.extractall(path='/home/pi/telemetry/releases')
+    try:
+        r = requests.get(url, stream=True)
+        z = zipfile.ZipFile(StringIO.StringIO(r.content))
+        z.extractall(path='/home/pi/telemetry/releases')
+        
+        return True
     
-    return True
+    except:
+        print ('Code: 300')
+        print ('Message: File is not a zip file?')
+        exit()
+    
 
 current_time=time.strftime("%Y-%m-%d %H:%M")
 print ('Time:' + current_time)
@@ -37,6 +46,11 @@ headers = { 'User-Agent' : 'Mozilla/5.0' }
 req = urllib2.Request(update_check, None, headers)
 update_url = urllib2.urlopen(req).read()
 
+if update_url=='':
+    print ('Code: 300')
+    print ('Message: URL not valid (or returned empty data)')
+    exit()
+    
 # Now check to see what version we currently have
 file_name=ntpath.basename(update_url).strip('.zip')
 existing_record=run_proc('GET', couchdb_baseurl + '/hardware/' + wxoutside_sensor_name)

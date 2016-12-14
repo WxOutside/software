@@ -5,11 +5,16 @@ import sys
 import time
 
 def get_device():
-    device=serial.Serial("/dev/ttyUSB0",baudrate=9600,timeout=10)
+    try:
+        device=serial.Serial("/dev/ttyUSB0",baudrate=9600,timeout=10)
     
-    time.sleep(2.5) # delay for arduino bootloader and the 1 second delay of the adapter.
-    
-    return device
+        time.sleep(2.5) # delay for arduino bootloader and the 1 second delay of the adapter.
+        
+        return device
+    except:
+        print ('Code: 300')
+        print ('Message: No device attached?')
+        exit()
 
 # Get the address of the provided device
 def device_address(device):

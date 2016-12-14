@@ -9,13 +9,30 @@ import time
 import RPi.GPIO as GPIO
 from __builtin__ import True
 
+#sys.path.append(os.path.abspath('/home/pi/telemetry/sensors/weatherPiArduino/RTC_SDL_DS3231'))
+#sys.path.append(os.path.abspath('/home/pi/telemetry/sensors/weatherPiArduino/Adafruit_Python_GPIO'))
+#sys.path.append(os.path.abspath('/home/pi/telemetry/sensors/weatherPiArduino/SDL_Pi_Weather_80422'))
+#sys.path.append(os.path.abspath('/home/pi/telemetry/sensors/weatherPiArduino/SDL_Pi_Weather_80422/Adafruit_ADS1x15'))
+
 sys.path.append(os.path.abspath('/home/pi/telemetry/sensors/weatherPiArduino/RTC_SDL_DS3231'))
+sys.path.append(os.path.abspath('/home/pi/telemetry/sensors/weatherPiArduino/Adafruit_Python_BMP'))
 sys.path.append(os.path.abspath('/home/pi/telemetry/sensors/weatherPiArduino/Adafruit_Python_GPIO'))
 sys.path.append(os.path.abspath('/home/pi/telemetry/sensors/weatherPiArduino/SDL_Pi_Weather_80422'))
 sys.path.append(os.path.abspath('/home/pi/telemetry/sensors/weatherPiArduino/SDL_Pi_Weather_80422/Adafruit_ADS1x15'))
+sys.path.append(os.path.abspath('/home/pi/telemetry/sensors/weatherPiArduino/SDL_Pi_FRAM'))
+sys.path.append(os.path.abspath('/home/pi/telemetry/sensors/weatherPiArduino/RaspberryPi-AS3935/RPi_AS3935'))
+
+
+#import SDL_DS3231
+#import SDL_Pi_Weather_80422 as SDL_Pi_Weather_80422
 
 import SDL_DS3231
+import Adafruit_BMP.BMP085 as BMP180
 import SDL_Pi_Weather_80422 as SDL_Pi_Weather_80422
+
+import SDL_Pi_FRAM
+from RPi_AS3935 import RPi_AS3935
+
 
 sys.path.append(os.path.abspath('/home/pi/telemetry/'))
 from config import couchdb_baseurl

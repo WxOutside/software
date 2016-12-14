@@ -28,7 +28,7 @@
 
 # minute 10 reserved for hardware stats
 30 * * * * /usr/bin/python3 /home/pi/telemetry/sensors/am2315.py > /home/pi/telemetry/logs/am2315.`date +\%Y\%m\%d\%H\%M\%S`.log 2>&1
-31 * * * * /usr/bin/python /home/pi/telemetry/sensors/weatherPiArduino/weatherPiArduino_controller.`date +\%Y\%m\%d\%H\%M\%S`.log 2>&1
+31 * * * * /usr/bin/python /home/pi/telemetry/sensors/weatherPiArduino/weatherPiArduino_controller.py /usr/bin/python /home/pi/telemetry/sensors/weatherPiArduino/weatherPiArduino_controller.`date +\%Y\%m\%d\%H\%M\%S`.log 2>&1
 
 # Notifications:
 51 * * * * /usr/bin/python /home/pi/telemetry/cron/sendHardwareStats.py > /home/pi/telemetry/logs/sendHardwareStats.log 2>&1

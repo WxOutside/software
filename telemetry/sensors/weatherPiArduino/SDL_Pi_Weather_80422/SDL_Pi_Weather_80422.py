@@ -24,7 +24,7 @@ import RPi.GPIO as GPIO
 
 GPIO.setwarnings(False)
 
-from datetime import *
+#from datetime import *
 
 
 # constants
