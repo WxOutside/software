@@ -245,7 +245,7 @@ class SDL_Pi_Weather_80422:
 		else:
 			# km/h * 1000 msec
 			SDL_Pi_Weather_80422._currentWindCount = 0;
-			time_.sleep(SDL_Pi_Weather_80422._sampleTime*1000);
+			time_.sleep(SDL_Pi_Weather_80422._sampleTime);
 			SDL_Pi_Weather_80422._currentWindSpeed = (float(SDL_Pi_Weather_80422._currentWindCount)/float(SDL_Pi_Weather_80422._sampleTime)) * WIND_FACTOR;
 
 		return SDL_Pi_Weather_80422._currentWindSpeed;

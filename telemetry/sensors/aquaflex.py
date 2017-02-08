@@ -164,7 +164,7 @@ def main(argv):
         
     if error_message!=False:
         print ('Code: 300')
-        print ('Message:', error_message)
+        print ('Message: ' + error_message)
         exit();
     
     #print('soil moisture:', soil_moisture, 'soil temperature:', soil_temperature, 'voltage:', battery_voltage)
@@ -226,13 +226,13 @@ def main(argv):
     json_items['am2315_last_updated']=current_time
     update_last_record(couchdb_baseurl, host_name, json_items)
     
-    print ('Time:', current_time)
+    print ('Time: ' + str(current_time))
     print ('Code: 100')
-    print ('Moisture:', soil_moisture)
-    print ('Soil temperature:', soil_temperature)
-    print ('Voltage:', battery_voltage)
-    print ('Raw1:', raw1)
-    print ('Raw2:', raw2)
+    print ('Moisture: ' + str(soil_moisture))
+    print ('Soil temperature: ' + str(soil_temperature))
+    print ('Voltage: ' +  str(battery_voltage))
+    print ('Raw1: ' + str(raw1))
+    print ('Raw2: ' + str(raw2))
     
 if __name__ == "__main__":
     main(sys.argv[1:])

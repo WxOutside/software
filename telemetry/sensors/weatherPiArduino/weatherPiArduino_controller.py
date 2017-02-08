@@ -7,6 +7,8 @@ import time
 	
 sys.path.append(os.path.abspath('/home/pi/telemetry/'))
 
+from functions import date_time
+
 process_found=False
 proc = subprocess.Popen(["ps ax | grep weatherPiArduino_agent"], shell=True, stdout=subprocess.PIPE, bufsize=1, universal_newlines=True)
 
@@ -16,7 +18,8 @@ for line in iter(proc.stdout.readline,''):
 		process_found=True
 		
 if process_found==True:
-	date,hour,minutes=date_time()
+	date,hour,hour_readable,minutes=date_time()
+
 	full_date=str(date) + ' ' + str(hour) + ':' + str(minutes)
 	print ('Time: ' + full_date)
 	print ('Code: 200')

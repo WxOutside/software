@@ -23,23 +23,19 @@ humidity=sensor.humidity()
 temperature=sensor.celsius()
 
 date,hour,hour_readable,minutes=date_time()
-
-# -99 etc is what happens if the sensor is not plugged in
-if temperature!=-99.9 and humidity!=-999:
     
-    print ("Temperature: " + str(temperature))
-    print ("Humidity: " + str(humidity))
+# -99 etc is what happens if the sensor is not plugged in
+# 'none' is what happens if the sensor isn't responding, possibly for atmospheric reasons
+if temperature is not None and temperature!=-99.9 and humidity!=-999:
+    
+    print ('Temperature: ' + str(temperature))
+    print ('Humidity: ' + str(humidity))
     
     doc_name=host_name + '_' + date + ':' + hour
     
     full_time=hour + ':' + minutes
     
-    print ('Time:', hour+'00')
-    
-    #if hour>12:
-    #    hour_readable=str(hour-12) + 'pm'
-    #else:
-    #    hour_readable=str(hour) + 'am'
+    print ('Time: ' + str(hour+'00'))
     
     output=run_proc('GET', couchdb_baseurl + '/telemetry/' + doc_name)
 
@@ -56,7 +52,6 @@ if temperature!=-99.9 and humidity!=-999:
         pass
     
     if has_record:
-        #print ('Status: Warning')
         print ('Code: 200')
         print ('Message: ' + hour_readable + " already has a record, we're not going to update it again")
         exit()
@@ -66,9 +61,7 @@ if temperature!=-99.9 and humidity!=-999:
     try:
         if output['_rev']:
             json_items=output
-        
-            #print ("We need to update rev_id " + json_items['_rev'])   
-            
+                    
     except:
         # We need to add these values so that we can retreive them in views.
         # We only add these for new records because these values shouldn't change if the record is updated
@@ -84,7 +77,6 @@ if temperature!=-99.9 and humidity!=-999:
     json_string=json.dumps(json_items)   
     
     replication_output=run_proc('PUT', couchdb_baseurl + '/telemetry/' + doc_name, json_string)
-    #print ('Status: success')
     print ('Code: 100')
     print ('Message: ' + hour_readable + ' temperature and humidity reading taken at ' + full_time + ' (Temperature: ' + str(temperature) + '&deg;, Humidity: ' + str(humidity) + '%)')
     
@@ -96,7 +88,9 @@ if temperature!=-99.9 and humidity!=-999:
     json_items['ignore']=True
     update_last_record(couchdb_baseurl, host_name, json_items)
 else:
-    #print ('Status: failure')
     print ('Code: 300')
-    print ('Message: Errors found - check the cables!')
+    if temperature=='none':
+        print ('Message: am2315 sensor not responding - try restarting the unit?')
+    else:
+        print ('Message: Errors found - check the cables!')
     

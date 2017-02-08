@@ -7,32 +7,14 @@ import sys
 import time
 
 import RPi.GPIO as GPIO
-from __builtin__ import True
-
-#sys.path.append(os.path.abspath('/home/pi/telemetry/sensors/weatherPiArduino/RTC_SDL_DS3231'))
-#sys.path.append(os.path.abspath('/home/pi/telemetry/sensors/weatherPiArduino/Adafruit_Python_GPIO'))
-#sys.path.append(os.path.abspath('/home/pi/telemetry/sensors/weatherPiArduino/SDL_Pi_Weather_80422'))
-#sys.path.append(os.path.abspath('/home/pi/telemetry/sensors/weatherPiArduino/SDL_Pi_Weather_80422/Adafruit_ADS1x15'))
 
 sys.path.append(os.path.abspath('/home/pi/telemetry/sensors/weatherPiArduino/RTC_SDL_DS3231'))
-sys.path.append(os.path.abspath('/home/pi/telemetry/sensors/weatherPiArduino/Adafruit_Python_BMP'))
 sys.path.append(os.path.abspath('/home/pi/telemetry/sensors/weatherPiArduino/Adafruit_Python_GPIO'))
 sys.path.append(os.path.abspath('/home/pi/telemetry/sensors/weatherPiArduino/SDL_Pi_Weather_80422'))
 sys.path.append(os.path.abspath('/home/pi/telemetry/sensors/weatherPiArduino/SDL_Pi_Weather_80422/Adafruit_ADS1x15'))
-sys.path.append(os.path.abspath('/home/pi/telemetry/sensors/weatherPiArduino/SDL_Pi_FRAM'))
-sys.path.append(os.path.abspath('/home/pi/telemetry/sensors/weatherPiArduino/RaspberryPi-AS3935/RPi_AS3935'))
-
-
-#import SDL_DS3231
-#import SDL_Pi_Weather_80422 as SDL_Pi_Weather_80422
 
 import SDL_DS3231
-import Adafruit_BMP.BMP085 as BMP180
 import SDL_Pi_Weather_80422 as SDL_Pi_Weather_80422
-
-import SDL_Pi_FRAM
-from RPi_AS3935 import RPi_AS3935
-
 
 sys.path.append(os.path.abspath('/home/pi/telemetry/'))
 from config import couchdb_baseurl
@@ -74,6 +56,8 @@ total_rain = 0
 
 first=True
 continue_loop=True
+last_updated=0
+
 while continue_loop:
 
 	current_wind_speed = weatherStation.current_wind_speed() * 1.852
@@ -105,12 +89,14 @@ while continue_loop:
 		#print ('total rain: ' , total_rain)
 		
 		current_minute=time.strftime("%M")
-		current_time=time.strftime("%Y-%m-%d %H:%M:%S")
+		current_time=time.strftime("%Y-%m-%d %H:%M")
 		
-		if current_minute=='00':
+		#print ('current minute', current_minute)
+		if current_minute=='00' and current_time!=last_updated:
 			#print ('updating official record')
 			
-			date,hour=date_time()
+			date,hour,hour_readable,minutes=date_time()
+			
 			doc_name=host_name + '_' + date + ':' + hour
 			output=run_proc('GET', couchdb_baseurl + '/telemetry/' + doc_name)
 			
@@ -139,7 +125,6 @@ while continue_loop:
 			
 			###################################################
 			# update the last_record entry:
-			current_time=time.strftime("%Y-%m-%d %H:%M")
 			json_items['anemometer_last_updated']=current_time
 			json_items['ignore']=True
 			update_last_record(couchdb_baseurl, host_name, json_items)
@@ -150,15 +135,17 @@ while continue_loop:
 			print ('Average wind: ', avg_wind_speed)
 			print ('Max wind gust: ', max_wind_gust)
 			print ('Max wind gust direction: ', max_wind_gust_direction)
-			print ('Message: ' + hour2 + ' record -  Rain: ' + str(total_rain) + ', average wind: ' + str(avg_wind_speed) + ', max wind gust: ' + str(max_wind_gust) + ', max wind gust direction: ' + str(max_wind_gust_direction))
+			print ('Message: ' + hour_readable + ' record -  Rain: ' + str(total_rain) + ', average wind: ' + str(avg_wind_speed) + ', max wind gust: ' + str(max_wind_gust) + ', max wind gust direction: ' + str(max_wind_gust_direction))
 			
 			wind_speeds=[]
 			max_wind_gust=0
 			total_rain = 0
+			last_updated=current_time
 					
 		time.sleep(10.0)
 		
 	else:
+		#print ('skipping first attempt')
 		first=False
 		time.sleep(10.0)
 		max_wind_gust=0
