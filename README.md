@@ -180,26 +180,27 @@ Crontab entries
   Then added these lines:
 
   ```
-  # Run sensors:
-  1 * * * * /usr/bin/python3 /home/pi/telemetry/sensors/am2315.py > /home/pi/telemetry/logs/am2315.`date +\%Y\%m\%d\%H\%M\%S`.log 2>&1
-  1 * * * * /usr/bin/python /home/pi/telemetry/sensors/aquaflex.py > /home/pi/telemetry/logs/aquaflex.`date +\%Y\%m\%d\%H\%M\%S`.log 2>&1
-  2 * * * * /usr/bin/python /home/pi/telemetry/sensors/weatherPiArduino/weatherPiArduino_controller.`date +\%Y\%m\%d\%H\%M\%S`.log 2>&1
+ # Run sensors:
+1 * * * * /usr/bin/python3 /home/pi/telemetry/sensors/am2315.py > /home/pi/telemetry/logs/am2315.`date +\%Y\%m\%d\%H\%M\%S`.log 2>&1
+1 * * * * /usr/bin/python /home/pi/telemetry/sensors/aquaflex.py > /home/pi/telemetry/logs/aquaflex.`date +\%Y\%m\%d\%H\%M\%S`.log 2>&1
+2 * * * * /usr/bin/python /home/pi/telemetry/sensors/weatherPiArduino/weatherPiArduino_controller.`date +\%Y\%m\%d\%H\%M\%S`.log 2>&1
 
-  # minute 10 reserved for hardware stats
-  30 * * * * /usr/bin/python3 /home/pi/telemetry/sensors/am2315.py > /home/pi/telemetry/logs/am2315.`date +\%Y\%m\%d\%H\%M\%S`.log 2>&1
-  31 * * * * /usr/bin/python /home/pi/telemetry/sensors/weatherPiArduino/weatherPiArduino_controller.`date +\%Y\%m\%d\%H\%M\%S`.log 2>&1
+# minute 10 reserved for hardware stats
+30 * * * * /usr/bin/python3 /home/pi/telemetry/sensors/am2315.py > /home/pi/telemetry/logs/am2315.`date +\%Y\%m\%d\%H\%M\%S`.log 2>&1
+31 * * * * /usr/bin/python /home/pi/telemetry/sensors/weatherPiArduino/weatherPiArduino_controller.`date +\%Y\%m\%d\%H\%M\%S`.log 2>&1
 
-  # Notifications:
-  51 * * * * /usr/bin/python /home/pi/telemetry/cron/sendHardwareStats.py > /home/pi/telemetry/logs/sendHardwareStats.log 2>&1
-  55 * * * * /usr/bin/python /home/pi/telemetry/cron/sendTelemetry.py > /home/pi/telemetry/logs/sendTelemetry.log 2>&1
-  50 * * * * /usr/bin/python /home/pi/telemetry/cron/checkEmail.py > /home/pi/telemetry/logs/checkEmail.log 2>&1
+# Notifications:
+51 * * * * /usr/bin/python /home/pi/telemetry/cron/sendHardwareStats.py > /home/pi/telemetry/logs/sendHardwareStats.log 2>&1
+55 * * * * /usr/bin/python /home/pi/telemetry/cron/sendTelemetry.py > /home/pi/telemetry/logs/sendTelemetry.log 2>&1
+50 * * * * /usr/bin/python /home/pi/telemetry/cron/checkEmail.py > /home/pi/telemetry/logs/checkEmail.log 2>&1
 
-  # System hygiene scripts:
-  30 3 * * * bash /home/pi/telemetry/cron/compaction.sh int > /home/pi/telemetry/logs/compaction.`date +\%Y\%m\%d\%H\%M\%S`.log 2>&1
-  10 * * * * /usr/bin/python /home/pi/telemetry/cron/hardwareStats.py > /home/pi/telemetry/logs/hardwareStats.log 2>&1
-  10 * * * * /usr/bin/python /home/pi/telemetry/cron/logger.py > /home/pi/telemetry/logs/logger.log 2>&1
+# System hygiene scripts:
+5 2 * * * /usr/bin/python /home/pi/telemetry/cron/updateCode.py > /home/pi/telemetry/logs/updateCode.`date +\%Y\%m\%d\%H\%M\%S`.log 2>&1
+10 * * * * /usr/bin/python /home/pi/telemetry/cron/hardwareStats.py > /home/pi/telemetry/logs/hardwareStats.log 2>&1
+10 * * * * /usr/bin/python /home/pi/telemetry/cron/logger.py > /home/pi/telemetry/logs/logger.log 2>&1
+30 3 * * * bash /home/pi/telemetry/cron/compaction.sh int > /home/pi/telemetry/logs/compaction.`date +\%Y\%m\%d\%H\%M\%S`.log 2>&1
 
-  @reboot /usr/bin/python /home/pi/telemetry/autorun/rebootLogger.py > /home/pi/telemetry/logs/rebootLogger.`date +\%Y\%m\%d\%H\%M\%S`.log 2>&1
+@reboot /usr/bin/python /home/pi/telemetry/autorun/rebootLogger.py > /home/pi/telemetry/logs/rebootLogger.`date +\%Y\%m\%d\%H\%M\%S`.log 2>&1
   ```
 
 Credits
