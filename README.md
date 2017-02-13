@@ -149,7 +149,7 @@ Code support
   mkdir telemetry
   ```
   
-  Copy over all the sensor code from https://github.com/WxOutside/software/tree/master/telemetry
+  Copy over all the sensor code from the latest release here: https://github.com/WxOutside/software/releases
 
 - *Step 13:* Set up weatherPiArduino
   ```bash
