@@ -160,7 +160,7 @@ Code support
 Database support
 ================
 
-In a browser, go to http://MACHINE_NAME.local:5984, where MACHINE_NAME is what you set in step 3.
+In a browser, go to http://MACHINE_NAME.local:5984/_utils, where MACHINE_NAME is what you set in step 3.
 
 - Step 14: create database called “telemetry”
   - Create a design document called 'records', with a view name called 'unsent', with the following map function:
