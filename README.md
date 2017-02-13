@@ -34,10 +34,13 @@ You'll need to have a monitor connected to the RPi for this step, but afterwards
 **By default, the username will be 'pi' and the password is 'raspberry'**
 
 - Step 3: Run raspsi-config and set a machine name and auto-login and password
+
   ```bash
   sudo raspi-config
   ```
-  - While you're there, set the timezone to NZDT (or your local timezone)
+  - User password is located in option 2
+  - Machine name is located in 7 (advanced settings) -> A2 Hostname
+  - While you're there, set the timezone to NZDT (or your local timezone) - 4 (internationalisation options) -> I2 Change Timezone
 
 **You can now access this via the network** via ssh pi@MACHINE_NAME (where MACHINE NAME is what you just set up)
 
