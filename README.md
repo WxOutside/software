@@ -31,6 +31,8 @@ Operating system setup
 
 You'll need to have a monitor connected to the RPi for this step, but afterwards you can use a network connection.
 
+**By default, the username will be 'pi' and the password is 'raspberry'**
+
 - Step 3: Run raspsi-config and set a machine name and auto-login and password
   ```bash
   sudo raspi-config
