@@ -39,8 +39,9 @@ You'll need to have a monitor connected to the RPi for this step, but afterwards
   sudo raspi-config
   ```
   - User password is located in option 2
-  - Machine name is located in 7 (advanced settings) -> A2 Hostname
-  - While you're there, set the timezone to NZDT (or your local timezone) - 4 (internationalisation options) -> I2 Change Timezone
+  - Machine name is located in Advanced settings -> A2 Hostname
+  - Enable SSH: Go to 'Interfacing Options' -> P2 SSH -> Yes
+  - While you're there, set the timezone to NZDT (or your local timezone): Internationalisation options -> I2 Change Timezone
 
 **You can now access this via the network** via ssh pi@MACHINE_NAME (where MACHINE NAME is what you just set up)
 
@@ -76,9 +77,9 @@ You'll need to have a monitor connected to the RPi for this step, but afterwards
   sudo apt-get install i2c-tools
   sudo raspi-config
   ```
-  Go to 'Advanced' -> A7 I2C -> Yes -> Ok -> Yes -> Ok
+  Go to 'Interfacing Options' -> P5 I2C -> Yes -> Ok
   
-  Now reboot:
+  Exit raspi-config and now reboot:
   ```bash
   sudo reboot
   ```
