@@ -153,7 +153,7 @@ Code support
 
 - *Step 13:* Set up weatherPiArduino
   ```bash
-  cd ~\telemetry\sensors\weatherPiArduino
+  cd ~/telemetry/sensors/weatherPiArduino
   chmod u+x weatherPiArduino_agent.py
   ```
 
@@ -180,7 +180,7 @@ Crontab entries
 
 - Step 16: create entries in the crontab so telemetry readings will be taken and transmitted out:
   ```bash
-  ~/crontab -e
+  crontab -e
   ```
   
   Then added these lines:
