@@ -145,7 +145,7 @@ Code support
 
 - *Step 12:* Create a directory called 'telemetry' in the pi user location:
   ```bash
-  cd ~/pi
+  cd ~/
   mkdir telemetry
   ```
   
