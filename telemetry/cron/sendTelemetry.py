@@ -41,7 +41,6 @@ for row in unsent_records['rows']:
     if valid==True and email_sent==False:
         json_items=values
         
-        #header=str(version) + '/' + str(date) + '/' + str(hour) + '/' + str(host_name) + "\n"
         header=str(version) + '/' + host_name + '/telemetry/' + str(date) + ' ' + str(hour) + ':00' + "\n"
         
         for value_item in values:

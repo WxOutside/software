@@ -22,7 +22,7 @@ body=''
 
 host_name=socket.gethostname()
 
-logs=['am2315', 'aquaflex', 'compaction', 'rebootLogger', 'updateCode', 'weatherPiArduino_controller']
+logs=['am2315', 'aquaflex', 'compaction', 'rebootLogger', 'updateCode', 'weatherPiArduino']
 
 for log_name in logs:
     filepath='/home/pi/telemetry/logs/' + str(log_name) + '.*.log'
@@ -37,8 +37,9 @@ for log_name in logs:
         
             modified_date=modification_date(textfile)
             
-            header=str(version) + '/' + str(log_name) + '/' + str(modified_date) + '/' + str(host_name) + "\n"
-            
+            #header=str(version) + '/' + str(log_name) + '/' + str(modified_date) + '/' + str(host_name) + "\n"
+            header=str(version) + '/' + str(host_name) + '/' + str(log_name) + '/' + str(modified_date) + "\n"
+
             server = smtplib.SMTP(wxoutside_email_server, wxoutside_email_port)
             server.starttls()
             server.login(wxoutside_sensor_email, wxoutside_sensor_password)

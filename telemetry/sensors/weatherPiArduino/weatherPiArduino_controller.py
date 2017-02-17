@@ -6,7 +6,6 @@ import sys
 import time
 	
 sys.path.append(os.path.abspath('/home/pi/telemetry/'))
-
 from functions import date_time
 
 process_found=False
@@ -22,7 +21,7 @@ if process_found==True:
 
 	full_date=str(date) + ' ' + str(hour) + ':' + str(minutes)
 	print ('Time: ' + full_date)
-	print ('Code: 200')
+	print ('Code: 100')
 	print ('Message: Script already running')
 	exit()
 	

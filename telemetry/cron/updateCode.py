@@ -26,7 +26,13 @@ def get_latest(url):
     try:
         r = requests.get(url, stream=True)
         z = zipfile.ZipFile(StringIO.StringIO(r.content))
-        z.extractall(path='/home/pi/telemetry/releases')
+        
+        releases_path='/home/pi/telemetry/releases'
+        
+        if not os.path.exists(releases_path):
+            os.makedirs(releases_path)
+            
+        z.extractall(path=releases_path)
         
         return True
     
